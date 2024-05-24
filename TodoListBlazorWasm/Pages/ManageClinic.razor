@@ -1,0 +1,113 @@
+﻿@page "/manageClinic"
+
+@using TodoList.Models
+
+<div>
+    <nav class ="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="TiepDonTab" data-bs-toggle="tab" data-bs-target="#TiepDon" type="button"
+                aria-controls="TiepDon" aria-selected="true">
+            Tiếp đón
+        </button>
+        <button class="nav-link" id="KhamBenhTab" data-bs-toggle="tab" data-bs-target="#KhamBenh" type="button"
+                aria-controls="KhamBenh" aria-selected="false">
+            Khám bệnh
+        </button>
+        <button class="nav-link" id="PhanHoiTab" data-bs-toggle="tab" data-bs-target="#PhanHoi" type="button"
+                aria-controls="PhanHoi" aria-selected="false">
+            Phản hồi
+        </button>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="TiepDon" role="tabpanel" aria-labelledby="TiepDonTab">
+
+            <h3>Thông tin tiếp đón</h3>
+            <EditForm Model="patientModel" OnValidSubmit="HandleClinic">
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <label for="PatientId">Chọn bệnh nhân: </label>
+                        <InputSelect id="PatientId" class="form-control" @bind-Value="patientModel.PatientId">
+                            <option value="">Chọn bệnh nhân</option>
+                            @foreach (var patient in patients)
+                            {
+                                <option value="@patient.PatientId">@patient.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="Gender">Giới tính: </label>
+                        <InputText id="Gender" class="form-control" @bind-Value="patientModel.Gender"></InputText>
+                    </div>
+                    <div class="col-sm-2">
+                        <label for="Target">Đối tượng: </label>
+                        <InputSelect id="Target" class="form-control" @bind-Value="patientModel.Target">
+                            @foreach (var target in targetOptions)
+                            {
+                                <option value="@target">@target</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="DateOfBirth">Ngày sinh: </label>
+                        <InputDate TValue="DateTime" id="DateOfBirth" class="form-control" @bind-Value="@inputDate"></InputDate>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <label for="Name">Họ và tên: </label>
+                        <InputText id="Name" class="form-control" @bind-Value="patientModel.Name"></InputText>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="Nation">Dân tộc: </label>
+                        <InputText id="Nation" class="form-control" @bind-Value="patientModel.Nation"></InputText>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="Age">Tuổi: </label>
+                        <InputNumber id="Age" class="form-control" @bind-Value="patientModel.Age"></InputNumber>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <label for="PhoneNumber">Số điện thoại:</label>
+                        <InputText id="PhoneNumber" class="form-control" @bind-Value="patientModel.PhoneNumber"></InputText>
+                    </div>
+                    <div class="col-sm-8">
+                        <label for="Address">Địa chỉ: </label>
+                        <InputText id="Address" class="form-control" @bind-Value="patientModel.Address"></InputText>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+        <div class="tab-pane fade" id="KhamBenh" role="tabpanel" aria-labelledby="KhamBenhTab">
+            <h1>Thong tin kham benh</h1>
+        </div>
+        <div class="tab-pane fade" id="PhanHoi" role="tabpanel" aria-labelledby="PhanHoiTab">
+            <h1>Phan hoi</h1> 
+        </div>
+    </div>
+
+    
+</div>
+
+@code {
+    private PatientRequest patientModel = new PatientRequest();
+    private DateTime inputDate = DateTime.Now.AddDays(0);
+    private bool ShowError;
+
+    //Doi tuong mau
+    private List<string> targetOptions = new List<string> { "Dịch vụ", "Ưu tiên", "Khác" };
+    //Benh nhan mau
+    private List<PatientRequest> patients = new List<PatientRequest>
+    {
+        new PatientRequest {PatientId = Guid.NewGuid(), Name = "Bệnh nhân 1"},
+        new PatientRequest {PatientId = Guid.NewGuid(), Name = "Bệnh nhân 2"}
+    };
+
+    private async Task HandleClinic()
+    {
+        patientModel.DateOfBirth = inputDate;
+        ShowError = false;
+    }
+}
