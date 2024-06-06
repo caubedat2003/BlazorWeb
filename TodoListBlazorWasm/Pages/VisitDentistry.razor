@@ -1,0 +1,89 @@
+﻿@using TodoList.Models
+
+<div class="modal-overlay @(ShowDialog ? "show" : "")"></div>
+
+<div class="modal fade @(ShowDialog ? "show d-block" : "fade")" id="dentisModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <EditForm Model="visitModel" OnValidSubmit="HandleVisit">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modaltitle">Thêm thông tin tái khám</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="()=>Hide()" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <label for="NgayHen">Ngày hẹn:</label>
+                            <InputDate TValue="DateTime" id="NgayHen" class="form-control" @bind-Value="@ngayHen"></InputDate>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="NgayBNDen">Ngày bệnh nhân đến:</label>
+                            <InputDate id="NgayBNDen" TValue="DateTime" class="form-control" @bind-Value="@ngayBNden"></InputDate>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <label for="NgayHenTiepTheo">Ngày hẹn tiếp theo:</label>
+                            <InputDate id="NgayHenTiepTheo" TValue="DateTime" class="form-control" @bind-Value="@ngayHenTiepTheo"></InputDate>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="SoTuan">Số tuần:</label>
+                            <InputNumber id="SoTuan" class="form-control" @bind-Value="visitModel.SoTuan"></InputNumber>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <label for="NoiDung">Nội dung:</label>
+                            <InputTextArea id="NoiDung" class="form-control" @bind-Value="visitModel.NoiDung"></InputTextArea>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <label for="GhiChu">Ghi chú:</label>
+                            <InputTextArea id="NoiDung" class="form-control" @bind-Value="visitModel.GhiChu"></InputTextArea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" @onclick="()=>Hide()" data-bs-dismiss="modal">
+                        <i class="ri-close-line"></i>
+                        Đóng
+                    </button>
+                    <button class="btn btn-success" type="submit">
+                        <i class="ri-save-3-line"></i>
+                        Lưu
+                    </button>
+                </div>
+            </div>     
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    protected bool ShowDialog { get; set; }
+    private VisitRequest visitModel = new VisitRequest();
+
+    private DateTime ngayHen = DateTime.Now.AddDays(0);
+    private DateTime ngayBNden = DateTime.Now.AddDays(0);
+    private DateTime ngayHenTiepTheo = DateTime.Now.AddDays(1);
+
+    private async Task HandleVisit()
+    {
+        visitModel.NgayHen = ngayHen;
+        visitModel.NgayBNDen = ngayBNden;
+        visitModel.NgayHenTiepTheo = ngayHenTiepTheo;
+        Hide();
+    }
+    public void Show()
+    {
+        ShowDialog = true;
+        StateHasChanged();
+    }
+    private void Hide()
+    {
+        ShowDialog = false;
+        StateHasChanged();
+    }
+}

@@ -78,13 +78,157 @@
                         <InputText id="Address" class="form-control" @bind-Value="patientModel.Address"></InputText>
                     </div>
                 </div>
+
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <label for="TreatmentType">Loại khám: </label>
+                        <InputText id="TreatmentType" class="form-control" @bind-Value="patientModel.TreatmentType"></InputText>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="FileNumber">Số hồ sơ</label>
+                        <InputNumber id="FileNumber" class="form-control" @bind-Value="patientModel.FileNumber"></InputNumber>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="CreatedDate">Ngày lập</label>
+                        <InputDate TValue="DateTime" id="CreatedDate" class="form-control" @bind-Value="@createdDate"></InputDate>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <label for="Condition">Tình trạng</label>
+                        <InputText id="Condition" class="form-control" @bind-Value="patientModel.Condition"></InputText>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="ClinicRoom">Phòng khám:</label>
+                        <InputText id="ClinicRoom" class="form-control" @bind-Value="patientModel.ClinicRoom"></InputText>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="TreatmentFee">Tiền khám:</label>
+                        <InputNumber id="TreatmentFee" class="form-control" @bind-Value="patientModel.TreatmentFee"></InputNumber>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-sm-8">
+                        <label for="TreatmentNote">Ghi chú khám: </label>
+                        <InputTextArea id="TreatmentNote" class="form-control" @bind-Value="patientModel.TreatmentNote"></InputTextArea>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="Doctor">Bác sĩ khám</label>
+                        <InputText id="Doctor" class="form-control" @bind-Value="patientModel.Doctor"></InputText>
+                    </div>
+                </div>
+
+                <div class="saveButton">
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                </div>
             </EditForm>
         </div>
+
         <div class="tab-pane fade" id="KhamBenh" role="tabpanel" aria-labelledby="KhamBenhTab">
-            <h1>Thong tin kham benh</h1>
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <label for="ClinicalDiagnosis">Khám lâm sàng: </label>
+                    <InputTextArea id="ClinicalDiagnosis" class="form-control" @bind-Value="treatmentModel.ClinicalDiagnosis"></InputTextArea>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-2">
+                    <label for="Pulse">Nhịp tim: </label>
+                    <InputNumber id="Pulse" class="form-control" @bind-Value="treatmentModel.Pulse"></InputNumber>
+                </div>
+                <div class="col-sm-2">
+                    <label for="BloodPressure">Huyết áp: </label>
+                    <InputNumber id="BloodPressure" class="form-control" @bind-Value="treatmentModel.BloodPressure"></InputNumber>
+                </div>
+                <div class="col-sm-2">
+                    <label for="Temperature">Nhiệt độ: </label>
+                    <InputNumber id="Temperature" class="form-control" @bind-Value="treatmentModel.Temperature"></InputNumber>
+                </div>
+                <div class="col-sm-2">
+                    <label for="Breath">Nhịp thở: </label>
+                    <InputNumber id="Breath" class="form-control" @bind-Value="treatmentModel.Breath"></InputNumber>
+                </div>
+                <div class="col-sm-2">
+                    <label for="Weight">Cân nặng: </label>
+                    <InputNumber id="Weight" class="form-control" @bind-Value="treatmentModel.Weight"></InputNumber>
+                </div>
+                <div class="col-sm-2">
+                    <label for="Height">Chiều cao: </label>
+                    <InputNumber id="Height" class="form-control" @bind-Value="treatmentModel.Height"></InputNumber>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <label for="AdditionalDisease">Bệnh kèm theo: </label>
+                    <InputTextArea id="AdditionalDisease" class="form-control" @bind-Value="treatmentModel.AdditionalDisease"></InputTextArea>
+                </div>
+                <div class="col-sm-6">
+                    <label for="Allergy">Dị ứng thuốc: </label>
+                    <InputTextArea id="Allergy" class="form-control" @bind-Value="treatmentModel.Allergy"></InputTextArea>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <label for="ICD10">ICD10: </label>
+                    <InputTextArea id="ICD10" class="form-control" @bind-Value="treatmentModel.ICD10"></InputTextArea>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <label for="Conclusion">Kết luận: </label>
+                    <InputTextArea id="Conclusion" class="form-control" @bind-Value="treatmentModel.Conclusion"></InputTextArea>
+                </div>
+            </div>
+
+            <div class="saveButton">
+                <button type="submit" class="btn btn-success">Lưu</button>
+            </div>
         </div>
+
         <div class="tab-pane fade" id="PhanHoi" role="tabpanel" aria-labelledby="PhanHoiTab">
-            <h1>Phan hoi</h1> 
+            
+            <BlazoredTextEditor @ref="@QuillHtml">
+                <ToolbarContent>
+                    <select class="ql-header">
+                        <option selected=""></option>
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                        <option value="5"></option>
+                    </select>
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-color"></select>
+                        <select class="ql-background"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <button class="ql-indent" value="-1"></button>
+                        <button class="ql-indent" value="+1"></button>
+                        <select class="ql-align">
+                            <option selected=""></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-link"></button>
+                    </span>
+                </ToolbarContent>
+                <EditorContent>
+                    
+                </EditorContent>
+            </BlazoredTextEditor>
         </div>
     </div>
 
@@ -93,7 +237,9 @@
 
 @code {
     private PatientRequest patientModel = new PatientRequest();
+    private TreatmentRequest treatmentModel = new TreatmentRequest();
     private DateTime inputDate = DateTime.Now.AddDays(0);
+    private DateTime createdDate = DateTime.Now.AddDays(0);
     private bool ShowError;
 
     //Doi tuong mau
@@ -110,4 +256,6 @@
         patientModel.DateOfBirth = inputDate;
         ShowError = false;
     }
+
+    private BlazoredTextEditor QuillHtml;
 }

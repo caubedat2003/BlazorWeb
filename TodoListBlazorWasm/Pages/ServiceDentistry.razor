@@ -1,0 +1,86 @@
+﻿@using TodoList.Models
+
+<div class="modal-overlay @(ShowDialog ? "show" : "")"></div>
+
+<div class="modal fade @(ShowDialog ? "show d-block" : "fade")" id="dentisModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <EditForm Model="serviceModel" OnValidSubmit="HandleService">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modaltitle">Nhập thông tin tái khám</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="()=>Hide()" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <label for="Name">Tên dịch vụ:</label>
+                            <InputText id="Name" class="form-control" @bind-Value="serviceModel.Name"></InputText>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-3">
+                            <label for="Number">Số lượng:</label>
+                            <InputNumber id="Number" class="form-control" @bind-Value="serviceModel.Number"></InputNumber>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="Price">Đơn giá:</label>
+                            <InputText id="Price" class="form-control" @bind-Value="serviceModel.Price"></InputText>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="Percentage">%</label>
+                            <InputNumber TValue="float" id="Percentage" class="form-control" @bind-Value="serviceModel.Percentage"></InputNumber>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="Type">Loại:</label>
+                            <InputText id="Type" class="form-control" @bind-Value="serviceModel.Type"></InputText>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <label for="Date">Ngày:</label>
+                            <InputDate TValue="DateTime" id="Date" class="form-control" @bind-Value="@date"></InputDate>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <label for="Description">Thông tin dịch vụ:</label>
+                            <InputTextArea id="Description" class="form-control" @bind-Value="serviceModel.Description"></InputTextArea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" @onclick="()=>Hide()" data-bs-dismiss="modal">
+                        <i class="ri-close-line"></i>
+                        Đóng
+                    </button>
+                    <button class="btn btn-success" type="submit">
+                        <i class="ri-save-3-line"></i>
+                        Lưu
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    protected bool ShowDialog { get; set; }
+    private ServiceRequest serviceModel = new ServiceRequest();
+
+    private DateTime date = DateTime.Now.AddDays(0);
+
+    private async Task HandleService(){
+        serviceModel.Date = date;
+        Hide();
+    }
+    public void Show(){
+        ShowDialog = true;
+        StateHasChanged();
+    }
+    private void Hide(){
+        ShowDialog = false;
+        StateHasChanged();
+    }
+}

@@ -5,6 +5,8 @@
 @inject IUserApiClient UserApiClient
 @inject IToastService toastService
 
+<div class="modal-overlay @(ShowDialog ? "show" : "")"></div>
+
 @if (ShowDialog && Assignees != null)
 {
     <div class="modal fade show d-block" id="assignModel" tabindex="-1">
