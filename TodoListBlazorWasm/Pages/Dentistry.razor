@@ -3,8 +3,12 @@
 
 <div>
     <nav class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-        <button class="nav-link active" id="InformationTab" data-bs-toggle="tab" data-bs-target="#Information" type="button"
-                aria-controls="Information" aria-selected="true">
+        <button class="nav-link active" id="ListInformationTab" data-bs-toggle="tab" data-bs-target="#ListInformation" type="button"
+                aria-controls="ListInformation" aria-selected="true">
+            Danh sách
+        </button>
+        <button class="nav-link" id="InformationTab" data-bs-toggle="tab" data-bs-target="#Information" type="button"
+                aria-controls="Information" aria-selected="false">
             Bệnh nhân
         </button>
         <button class="nav-link" id="VisitTab" data-bs-toggle="tab" data-bs-target="#Visit" type="button"
@@ -18,7 +22,40 @@
     </nav>
 
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="Information" role="tabpanel" aria-labelledby="InformationTab">
+        <div class="tab-pane fade show active" id="ListInformation" role="tabpanel" aria-labelledby="ListInformationTab">
+            <h3>Danh sách bệnh nhân</h3>
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Ngày hẹn</th>
+                        <th>Ngày BN đến</th>
+                        <th>Ngày hẹn tiếp theo</th>
+                        <th>Số tuần</th>
+                        <th>Nội dung</th>
+                        <th>Ghi chú</th>
+                        <th width="8%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-danger">
+                                <i class="ri-delete-bin-line"></i>
+                                Xoá
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="Information" role="tabpanel" aria-labelledby="InformationTab">
 
             <EditForm Model="patientModel" OnValidSubmit="HandlePatient">
                 <h3>Thông tin bệnh nhân</h3>
@@ -69,25 +106,25 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="DateEnd">Dự kiến kết thúc: (tháng)</label>
-                        <InputNumber id="DateEnd" class="form-control" @bind-Value="patientModel.DateEnd"></InputNumber>
+                        <InputNumber id="DateEnd" class="form-control" @bind-Value="treatProgressModel.DateEnd"></InputNumber>
                     </div>
                     <div class="col-sm-3">
                         <label for="Doctor">Bác sĩ TD:</label>
-                        <InputText id="Doctor" class="form-control" @bind-Value="patientModel.Doctor"></InputText>
+                        <InputText id="Doctor" class="form-control" @bind-Value="treatProgressModel.Doctor"></InputText>
                     </div>
                     <div class="col-sm-3">
                         <label for="PicturePeriod">Định kỳ chụp ảnh:</label>
-                        <InputNumber id="PicturePeriod" class="form-control" @bind-Value="patientModel.PicturePeriod"></InputNumber>
+                        <InputNumber id="PicturePeriod" class="form-control" @bind-Value="treatProgressModel.PicturePeriod"></InputNumber>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-sm-3">
                         <label for="RecommendSource">Nguồn GT:</label>
-                        <InputText id="Doctor" class="form-control" @bind-Value="patientModel.RecommendSource"></InputText>
+                        <InputText id="Doctor" class="form-control" @bind-Value="treatProgressModel.RecommendSource"></InputText>
                     </div>
                     <div class="col-sm-3">
                         <label for="RecommendPerson">Người GT:</label>
-                        <InputText id="RecommendPerson" class="form-control" @bind-Value="patientModel.RecommendPerson"></InputText>
+                        <InputText id="RecommendPerson" class="form-control" @bind-Value="treatProgressModel.RecommendPerson"></InputText>
                     </div>
                     <div class="col-sm-3">
                         <label for="CSKH">Đặt lịch gọi điện CSKH:</label>
@@ -95,17 +132,17 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="Notice">Đặc biệt:</label>
-                        <InputText id="Notice" class="form-control" @bind-Value="patientModel.Notice"></InputText>
+                        <InputText id="Notice" class="form-control" @bind-Value="treatProgressModel.Notice"></InputText>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <label for="Diagnose">Chuẩn đoán:</label>
-                        <InputTextArea id="Diagnose" class="form-control" @bind-Value="patientModel.Diagnose"></InputTextArea>
+                        <InputTextArea id="Diagnose" class="form-control" @bind-Value="treatProgressModel.Diagnose"></InputTextArea>
                     </div>
                     <div class="col-sm-6">
                         <label for="TreatmentMethod">Hướng điều trị:</label>
-                        <InputTextArea id="TreatmentMethod" class="form-control" @bind-Value="patientModel.TreatmentMethod"></InputTextArea>
+                        <InputTextArea id="TreatmentMethod" class="form-control" @bind-Value="treatProgressModel.TreatmentMethod"></InputTextArea>
                     </div>
                 </div>
                 <div class="saveDentistryButton">
@@ -135,7 +172,7 @@
                         <th>Số tuần</th>
                         <th>Nội dung</th>
                         <th>Ghi chú</th>
-                        <th width="7%"></th>
+                        <th width="8%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -189,7 +226,7 @@
                         <th>Ngày</th>
                         <th>Loại</th>
                         <th>Dịch vụ</th>
-                        <th width="7%"></th>
+                        <th width="8%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -223,6 +260,7 @@
 
 @code {
     private PatientRequest patientModel = new PatientRequest();
+    private TreatProgressRequest treatProgressModel = new TreatProgressRequest();
     private bool ShowError = true;
 
     protected VisitDentistry visitDentistryDialog { get; set; }
@@ -239,8 +277,8 @@
         ShowError = false;
         patientModel.DateOfBirth = dateOfBirth;
         patientModel.CreatedDate = createdDate;
-        patientModel.DateStart = dateStart;
-        patientModel.CSKH = CSKH;
+        treatProgressModel.DateStart = dateStart;
+        treatProgressModel.CSKH = CSKH;
     }
     public void OpenVisitPopup()
     {

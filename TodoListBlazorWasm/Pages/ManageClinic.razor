@@ -236,7 +236,7 @@
 </div>
 
 @code {
-    private PatientRequest patientModel = new PatientRequest();
+    private PatientRequest_Old patientModel = new PatientRequest_Old();
     private TreatmentRequest treatmentModel = new TreatmentRequest();
     private DateTime inputDate = DateTime.Now.AddDays(0);
     private DateTime createdDate = DateTime.Now.AddDays(0);
@@ -245,10 +245,10 @@
     //Doi tuong mau
     private List<string> targetOptions = new List<string> { "Dịch vụ", "Ưu tiên", "Khác" };
     //Benh nhan mau
-    private List<PatientRequest> patients = new List<PatientRequest>
+    private List<PatientRequest_Old> patients = new List<PatientRequest_Old>
     {
-        new PatientRequest {PatientId = Guid.NewGuid(), Name = "Bệnh nhân 1"},
-        new PatientRequest {PatientId = Guid.NewGuid(), Name = "Bệnh nhân 2"}
+        new PatientRequest_Old {PatientId = Guid.NewGuid(), Name = "Bệnh nhân 1"},
+        new PatientRequest_Old {PatientId = Guid.NewGuid(), Name = "Bệnh nhân 2"}
     };
 
     private async Task HandleClinic()
