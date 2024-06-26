@@ -32,7 +32,8 @@ namespace TodoList.Api.Repositories
 
         public async Task<List<Patient>> GetPatientsList()
         {
-            return await _context.Patients.ToListAsync();
+            var query = _context.Patients.AsQueryable();
+            return await query.OrderByDescending(x=>x.CreatedDate).ToListAsync();
         }
 
         public async Task<Patient> Update(Patient patient)

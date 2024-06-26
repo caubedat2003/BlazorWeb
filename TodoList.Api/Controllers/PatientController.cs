@@ -71,7 +71,6 @@ namespace TodoList.Api.Controllers
             var patient = await _patientRepository.GetById(id);
             if (patient == null) return NotFound("Không tìm thấy bệnh nhân");
             await _patientRepository.Delete(patient);
-            if (patient == null) return NotFound("Không tìm thấy bệnh nhân");
             return Ok(new PatientRequest()
             {
                 PatientId = patient.PatientId,
