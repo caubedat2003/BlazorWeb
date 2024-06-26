@@ -18,6 +18,7 @@ namespace TodoListBlazorWasm
             builder.Services.AddBlazoredToast();
             builder.Services.AddTransient<ITaskApiClient, TaskApiClient>();
             builder.Services.AddTransient<IUserApiClient, UserApiClient>();
+            builder.Services.AddTransient<IPatientApiClient, PatientApiClient>();
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();

@@ -39,6 +39,20 @@ namespace TodoList.Api.Data
                     Status = Status.Open,
                 });
             }
+            if(!context.Patients.Any())
+            {
+                context.Patients.Add(new Patient()
+                {
+                    PatientId = Guid.NewGuid(),
+                    Name = "Benh nhan A",
+                    Gender = "Nam",
+                    DateOfBirth = DateTime.Now,
+                    Job = "Doanh nhan",
+                    PhoneNumber = "0000000000",
+                    Address = "Cau Giay, Ha Noi",
+                    CreatedDate = DateTime.Now
+                });
+            }
             //var user = new User();
             //var task = new Entities.Task();
             //if (!context.Users.Any())

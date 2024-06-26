@@ -1,291 +1,103 @@
 ﻿@page "/dentistry"
 @using TodoList.Models
+@using TodoListBlazorWasm.Services
+@inject IConfiguration Configuration
+@inject IToastService toastService
 
-<div>
-    <nav class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-        <button class="nav-link active" id="ListInformationTab" data-bs-toggle="tab" data-bs-target="#ListInformation" type="button"
-                aria-controls="ListInformation" aria-selected="true">
-            Danh sách
-        </button>
-        <button class="nav-link" id="InformationTab" data-bs-toggle="tab" data-bs-target="#Information" type="button"
-                aria-controls="Information" aria-selected="false">
-            Bệnh nhân
-        </button>
-        <button class="nav-link" id="VisitTab" data-bs-toggle="tab" data-bs-target="#Visit" type="button"
-                aria-controls="Visit" aria-selected="false">
-            Tái khám
-        </button>
-        <button class="nav-link" id="ServiceTab" data-bs-toggle="tab" data-bs-target="#Service" type="button"
-                aria-controls="Service" aria-selected="false">
-            Dịch vụ
-        </button>
-    </nav>
-
-    <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="ListInformation" role="tabpanel" aria-labelledby="ListInformationTab">
+@if(Patients == null)
+{
+    <div>loading</div>
+}
+else
+{
+    <div>
+        <div class="titleLayout">
             <h3>Danh sách bệnh nhân</h3>
-            <table class="table mt-3">
-                <thead>
+            <button type="submit" class="btn btn-primary" @onclick="()=>OpenAddPatientPopup()">
+                @* <i class="ri-add-line"></i> *@
+                <i class="ri-user-add-line"></i>
+                Thêm bệnh nhân
+            </button>
+        </div>
+
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Giới tính</th>
+                    <th>Ngày sinh</th>
+                    <th>Nghề nghiệp</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Ngày tạo</th>
+                    <th width="15%"></th>
+                </tr>
+            </thead>
+            <tbody class="justify-content-center align-items-sm-center">
+                @foreach (var item in Patients)
+                {
                     <tr>
-                        <th>Ngày hẹn</th>
-                        <th>Ngày BN đến</th>
-                        <th>Ngày hẹn tiếp theo</th>
-                        <th>Số tuần</th>
-                        <th>Nội dung</th>
-                        <th>Ghi chú</th>
-                        <th width="8%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td class="align-middle">@item.Name</td>
+                        <td class="align-middle">@item.Gender</td>
+                        <td class="align-middle">@item.DateOfBirth.ToString(Configuration["DateTimeFormat"])</td>
+                        <td class="align-middle">@item.Job</td>
+                        <td class="align-middle">@item.PhoneNumber</td>
+                        <td class="align-middle">@item.Address</td>
+                        <td class="align-middle">@item.CreatedDate.ToString(Configuration["DateTimeFormat"])</td>
                         <td>
-                            <button class="btn btn-danger">
+                            <a href="/patientDetails/@item.PatientId" class="btn btn-outline-primary">
+                                <i class="ri-user-3-line"></i>
+                                Bệnh nhân
+                            </a>
+                            @* <button class="btn btn-outline-primary" @onclick="()=>OpenEditPatientPopup(item)">
+                    <i class="ri-edit-line"></i>
+                    Sửa
+                    </button> *@
+                            <button class="btn btn-primary">
                                 <i class="ri-delete-bin-line"></i>
                                 Xoá
                             </button>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="tab-pane fade" id="Information" role="tabpanel" aria-labelledby="InformationTab">
-
-            <EditForm Model="patientModel" OnValidSubmit="HandlePatient">
-                <h3>Thông tin bệnh nhân</h3>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="Name">Họ và tên:</label>
-                        <InputText id="Name" class="form-control" @bind-Value="patientModel.Name"></InputText>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="PhoneNumber">Số điện thoại:</label>
-                        <InputText id="PhoneNumber" class="form-control" @bind-Value="patientModel.PhoneNumber"></InputText>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="Gender">Giới tính:</label>
-                        <InputText id="Gender" class="form-control" @bind-Value="patientModel.Gender"></InputText>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="DateOfBirth">Ngày sinh:</label>
-                        <InputDate TValue="DateTime" id="DateOfBirth" class="form-control" @bind-Value="@dateOfBirth"></InputDate>
-                    </div>
-                </div>
-                <div class="row mb-2">
-
-                    <div class="col-sm-3">
-                        <label for="Job">Nghề nghiệp:</label>
-                        <InputText id="Job" class="form-control" @bind-Value="patientModel.Job"></InputText>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="CreatedDate">Ngày tạo hồ sơ:</label>
-                        <InputDate TValue="DateTime" class="form-control" @bind-Value="@createdDate"></InputDate>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="Address">Địa chỉ:</label>
-                        <InputText id="Address" class="form-control" @bind-Value="patientModel.Address"></InputText>
-                    </div>
-                </div>
-                <div class="VIPcheckbox">
-                    <input class="form-check-input" type="checkbox" value="" id="VIP" />
-                    <label class="form-check-label mx-1" for="VIP">VIP</label>
-                </div>
-
-                <div class="divider"></div>
-                <h3>Quá trình điều trị</h3>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="DateStart">Ngày bắt đầu:</label>
-                        <InputDate TValue="DateTime" id="DateStart" class="form-control" @bind-Value="@dateStart"></InputDate>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="DateEnd">Dự kiến kết thúc: (tháng)</label>
-                        <InputNumber id="DateEnd" class="form-control" @bind-Value="treatProgressModel.DateEnd"></InputNumber>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="Doctor">Bác sĩ TD:</label>
-                        <InputText id="Doctor" class="form-control" @bind-Value="treatProgressModel.Doctor"></InputText>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="PicturePeriod">Định kỳ chụp ảnh:</label>
-                        <InputNumber id="PicturePeriod" class="form-control" @bind-Value="treatProgressModel.PicturePeriod"></InputNumber>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="RecommendSource">Nguồn GT:</label>
-                        <InputText id="Doctor" class="form-control" @bind-Value="treatProgressModel.RecommendSource"></InputText>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="RecommendPerson">Người GT:</label>
-                        <InputText id="RecommendPerson" class="form-control" @bind-Value="treatProgressModel.RecommendPerson"></InputText>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="CSKH">Đặt lịch gọi điện CSKH:</label>
-                        <InputDate TValue="DateTime" id="CSKH" class="form-control" @bind-Value="@CSKH"></InputDate>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="Notice">Đặc biệt:</label>
-                        <InputText id="Notice" class="form-control" @bind-Value="treatProgressModel.Notice"></InputText>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <label for="Diagnose">Chuẩn đoán:</label>
-                        <InputTextArea id="Diagnose" class="form-control" @bind-Value="treatProgressModel.Diagnose"></InputTextArea>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="TreatmentMethod">Hướng điều trị:</label>
-                        <InputTextArea id="TreatmentMethod" class="form-control" @bind-Value="treatProgressModel.TreatmentMethod"></InputTextArea>
-                    </div>
-                </div>
-                <div class="saveDentistryButton">
-                    <button type="submit" class="btn btn-success">
-                        <i class="ri-save-3-line"></i>
-                        Lưu
-                    </button>
-                </div>
-            </EditForm>
-        </div>
-
-        <div class="tab-pane fade" id="Visit" role="tabpanel" aria-labelledby="VisitTab">          
-            <div class="titleLayout">
-                <h3>Danh sách tái khám</h3>
-                <button type="submit" class="btn btn-primary" @onclick="()=>OpenVisitPopup()">
-                    <i class="ri-add-line"></i>
-                    Thêm tái khám
-                </button>
-            </div>
-
-            <table class="table mt-3">
-                <thead>
-                    <tr>
-                        <th>Ngày hẹn</th>
-                        <th>Ngày BN đến</th>
-                        <th>Ngày hẹn tiếp theo</th>
-                        <th>Số tuần</th>
-                        <th>Nội dung</th>
-                        <th>Ghi chú</th>
-                        <th width="8%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-danger">
-                                <i class="ri-delete-bin-line"></i>
-                                Xoá
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="tab-pane fade" id="Service" role="tabpanel" aria-labelledby="ServiceTab">
-            <div class="titleLayout">
-                <h3>Dịch vụ sử dụng</h3>
-                <div>
-                    <button type="submit" class="btn btn-primary" @onclick="()=>OpenServicePopup()">
-                        <i class="ri-add-line"></i>
-                        Thêm dịch vụ
-                    </button>
-                    <button type="button" class="btn btn-warning">
-                        <i class="ri-team-fill"></i>
-                        Nhân viên
-                    </button>
-                    <button type="button" class="btn btn-success">
-                        <i class="ri-bank-card-fill"></i>
-                        Chi tiết thanh toán
-                    </button>
-                    <button type="button" class="btn btn-info">
-                        <i class="ri-printer-fill"></i>
-                        In phiếu thu
-                    </button>
-                </div>
-            </div>
-            <table class="table mt-3">
-                <thead>
-                    <tr>
-                        <th>Tên dịch vụ</th>
-                        <th>Số lượng</th>
-                        <th>Đơn giá</th>
-                        <th>%</th>
-                        <th>Ngày</th>
-                        <th>Loại</th>
-                        <th>Dịch vụ</th>
-                        <th width="8%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button class="btn btn-danger">
-                                <i class="ri-delete-bin-line"></i>
-                                Xoá
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="saveButton">
-                
-            </div>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
-</div>
 
-<VisitDentistry @ref="visitDentistryDialog" />
+    <PatientAddDentistry @ref="addPatientDialog" OnPatientAdded="AddPatientToList" />
 
-<ServiceDentistry @ref="serviceDentistryDialog" />
+    @* <PatientEditDentistry @ref="editPatientDialog" /> *@
+}
 
 @code {
     private PatientRequest patientModel = new PatientRequest();
+    private PatientUpdateRequest patientUpdateModel = new PatientUpdateRequest();
     private TreatProgressRequest treatProgressModel = new TreatProgressRequest();
     private bool ShowError = true;
 
-    protected VisitDentistry visitDentistryDialog { get; set; }
-    protected ServiceDentistry serviceDentistryDialog { get; set; }
+    protected PatientAddDentistry addPatientDialog { get; set; }
+    // protected PatientEditDentistry editPatientDialog { get; set; }
 
     private DateTime dateOfBirth = DateTime.Now.AddDays(0);
     private DateTime createdDate = DateTime.Today.AddMinutes(0);
-    private DateTime dateStart = DateTime.Now.AddDays(0);
-    private DateTime CSKH = DateTime.Now.AddDays(0);
 
+    public void OpenAddPatientPopup()
+    {
+        addPatientDialog.Show();
+    }
 
-    private async Task HandlePatient()
+    [Inject] private IPatientApiClient PatientApiClient { set; get; }
+
+    private List<PatientRequest> Patients;
+
+    protected override async Task OnInitializedAsync()
     {
-        ShowError = false;
-        patientModel.DateOfBirth = dateOfBirth;
-        patientModel.CreatedDate = createdDate;
-        treatProgressModel.DateStart = dateStart;
-        treatProgressModel.CSKH = CSKH;
+        Patients = await PatientApiClient.GetPatientList();
     }
-    public void OpenVisitPopup()
+
+    private void AddPatientToList(PatientRequest newPatient)
     {
-        visitDentistryDialog.Show();
-    }
-    public void OpenServicePopup()
-    {
-        serviceDentistryDialog.Show();
+        Patients.Add(newPatient);
+        StateHasChanged(); //Cập nhật bảng khi 1 bệnh nhân được thêm mới
     }
 }

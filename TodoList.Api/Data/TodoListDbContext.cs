@@ -13,5 +13,6 @@ namespace TodoList.Api.Data
         }
 
         public DbSet<Task> Tasks { get; set; }
+        public DbSet<Patient> Patients { get; set; }
     }
 }
