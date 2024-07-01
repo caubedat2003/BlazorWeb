@@ -12,8 +12,8 @@ using TodoList.Api.Data;
 namespace TodoList.Api.Migrations
 {
     [DbContext(typeof(TodoListDbContext))]
-    [Migration("20240621094042_AddPatientTable")]
-    partial class AddPatientTable
+    [Migration("20240628063946_AddPatientsTable")]
+    partial class AddPatientsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,9 +144,8 @@ namespace TodoList.Api.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("Job")
                         .IsRequired()

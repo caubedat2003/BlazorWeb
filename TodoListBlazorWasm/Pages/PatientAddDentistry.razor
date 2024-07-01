@@ -1,5 +1,6 @@
 ﻿@using TodoList.Models
 @using TodoListBlazorWasm.Services
+@using TodoList.Models.Enums
 @inject IToastService toastService
 @inject IPatientApiClient PatientApiClient
 
@@ -26,7 +27,12 @@
                         </div>
                         <div class="col-sm-4">
                             <label for="Gender">Giới tính:</label>
-                            <InputText id="Gender" class="form-control" @bind-Value="patientModel.Gender"></InputText>
+                            <InputSelect id="Gender" class="form-control" @bind-Value="patientModel.Gender">
+                                @foreach(string gender in Enum.GetNames(typeof(Gender)))
+                                {
+                                    <option value="@gender">@gender</option>
+                                }
+                            </InputSelect>
                         </div>
                     </div>
                     <div class="row mb-2">

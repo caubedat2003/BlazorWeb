@@ -45,7 +45,7 @@ namespace TodoList.Api.Data
                 {
                     PatientId = Guid.NewGuid(),
                     Name = "Benh nhan A",
-                    Gender = "Nam",
+                    Gender = Gender.Nam,
                     DateOfBirth = DateTime.Now,
                     Job = "Doanh nhan",
                     PhoneNumber = "0000000000",

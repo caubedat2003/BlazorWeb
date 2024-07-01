@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TodoList.Api.Entities;
 using TodoList.Api.Repositories;
 using TodoList.Models;
+using TodoList.Models.Enums;
 
 namespace TodoList.Api.Controllers
 {

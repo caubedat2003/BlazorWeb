@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TodoList.Models.Enums;
 
 namespace TodoList.Api.Entities
 {
@@ -8,7 +9,7 @@ namespace TodoList.Api.Entities
         public Guid PatientId { get; set; }
         [Required]
         public string Name { get; set; }
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
         public string Job { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }

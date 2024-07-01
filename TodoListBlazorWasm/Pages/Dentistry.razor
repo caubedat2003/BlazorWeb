@@ -1,4 +1,4 @@
-﻿@page "/dentistry"
+﻿@page "/Dentistry"
 @using TodoList.Models
 @using TodoListBlazorWasm.Services
 @using TodoListBlazorWasm.Components
@@ -7,7 +7,7 @@
 
 @if(Patients == null)
 {
-    <div>loading</div>
+    <div>loading.......</div>
 }
 else
 {
@@ -30,7 +30,7 @@ else
                     <th>Số điện thoại</th>
                     <th>Địa chỉ</th>
                     <th>Ngày tạo</th>
-                    <th width="15%"></th>
+                    <th width="23%"></th>
                 </tr>
             </thead>
             <tbody class="justify-content-center align-items-sm-center">
@@ -39,15 +39,19 @@ else
                     <tr>
                         <td class="align-middle">@item.Name</td>
                         <td class="align-middle">@item.Gender</td>
-                        <td class="align-middle">@item.DateOfBirth.ToString(Configuration["DateTimeFormat"])</td>
+                        <td class="align-middle">@item.DateOfBirth.ToString(Configuration["DateOnlyFormat"])</td>
                         <td class="align-middle">@item.Job</td>
                         <td class="align-middle">@item.PhoneNumber</td>
                         <td class="align-middle">@item.Address</td>
                         <td class="align-middle">@item.CreatedDate.ToString(Configuration["DateTimeFormat"])</td>
                         <td>
-                            <a href="/patientDetails/@item.PatientId" class="btn btn-outline-primary">
+                            <a href="/PatientDetails/@item.PatientId" class="btn btn-outline-primary">
                                 <i class="ri-user-3-line"></i>
-                                Bệnh nhân
+                                Chi tiết
+                            </a>
+                            <a href="/EditPatient/@item.PatientId" class="btn btn-outline-primary">
+                                <i class="ri-edit-line"></i>
+                                Sửa
                             </a>
                             <button class="btn btn-primary" @onclick="()=>OnDeletePatient(item.PatientId)">
                                 <i class="ri-delete-bin-line"></i>
@@ -99,7 +103,8 @@ else
     private async void AddPatientToList(PatientRequest newPatient)
     {
         Patients.Add(newPatient);
-        // Patients = await PatientApiClient.GetPatientList();
+        StateHasChanged();
+        Patients = await PatientApiClient.GetPatientList();
     }
 
     public void OnDeletePatient(Guid deleteId)

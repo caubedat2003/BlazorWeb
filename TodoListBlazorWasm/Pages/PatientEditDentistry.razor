@@ -1,121 +1,101 @@
-﻿@using TodoList.Models
+﻿@page "/EditPatient/{patientId}"
+@using TodoList.Models
 @using TodoListBlazorWasm.Services
+@using TodoList.Models.Enums
 @inject IPatientApiClient PatientApiClient
 @inject IToastService toastService
+@inject NavigationManager NavigationManager
 
-<div class="modal-overlay @(ShowDialog ? "show" : "")"></div>
-
-<div class="modal fade @(ShowDialog ? "show d-block" : "fade")" id="dentisModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-
-        <EditForm Model="patientUpdateModel" OnSubmit="HandleEditPatient">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modaltitle">Chỉnh sửa thông tin bệnh nhân</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="()=>Hide()" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <label for="Name">Họ và tên:</label>
-                            <InputText id="Name" class="form-control" @bind-Value="patientUpdateModel.Name"></InputText>
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="PhoneNumber">Số điện thoại:</label>
-                            <InputText id="PhoneNumber" class="form-control" @bind-Value="patientUpdateModel.PhoneNumber"></InputText>
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="Gender">Giới tính:</label>
-                            <InputText id="Gender" class="form-control" @bind-Value="patientUpdateModel.Gender"></InputText>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <label for="DateOfBirth">Ngày sinh:</label>
-                            <InputDate TValue="DateTime" id="DateOfBirth" class="form-control" @bind-Value="@dateOfBirth"></InputDate>
-                        </div>
-                        <div class="col-sm-8">
-                            <label for="Job">Nghề nghiệp:</label>
-                            <InputText id="Job" class="form-control" @bind-Value="patientUpdateModel.Job"></InputText>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <label for="Address">Địa chỉ:</label>
-                            <InputText id="Address" class="form-control" @bind-Value="patientUpdateModel.Address"></InputText>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" @onclick="()=>Hide()" data-bs-dismiss="modal">
-                        <i class="ri-close-line"></i>
-                        Đóng
-                    </button>
-                    <button class="btn btn-success" type="submit">
-                        <i class="ri-save-3-line"></i>
-                        Lưu
-                    </button>
-                </div>
+@if(Patient == null)
+{
+    <div>loading.......</div>
+}
+else
+{
+    <h3 class="mb-3">Chỉnh sửa thông tin bệnh nhân @Patient.Name</h3>
+    <EditForm Model="Patient" OnSubmit="HandleEditPatient">
+        <div class="row mb-2">
+            <div class="col-sm-4">
+                <label for="Name">Họ và tên:</label>
+                <InputText id="Name" class="form-control" @bind-Value="Patient.Name"></InputText>
             </div>
-        </EditForm>
-    </div>
-</div>
+            <div class="col-sm-4">
+                <label for="PhoneNumber">Số điện thoại:</label>
+                <InputText id="PhoneNumber" class="form-control" @bind-Value="Patient.PhoneNumber"></InputText>
+            </div>
+            <div class="col-sm-4">
+                <label for="Gender">Giới tính:</label>
+                <InputSelect id="Gender" class="form-control" @bind-Value="Patient.Gender">
+                    @foreach(string gender in Enum.GetNames(typeof(Gender)))
+                    {
+                        <option value="@gender">@gender</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-4">
+                <label for="DateOfBirth">Ngày sinh:</label>
+                <InputDate TValue="DateTime" id="DateOfBirth" class="form-control" @bind-Value="@dateOfBirth"></InputDate>
+            </div>
+            <div class="col-sm-8">
+                <label for="Job">Nghề nghiệp:</label>
+                <InputText id="Job" class="form-control" @bind-Value="Patient.Job"></InputText>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label for="Address">Địa chỉ:</label>
+                <InputText id="Address" class="form-control" @bind-Value="Patient.Address"></InputText>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-secondary mt-2" type="button" @onclick="()=>BackBtn()">
+            <i class="ri-arrow-left-line"></i>
+            Quay lại
+        </button>
+        <button class="btn btn-success mt-2" type="submit">
+            <i class="ri-save-3-line"></i>
+            Lưu
+        </button>
+    </EditForm>
+}
 
 @code {
     [Parameter]
     public string patientId { get; set; }
 
-    protected bool ShowDialog { get; set; }
-    private PatientUpdateRequest patientUpdateModel = new PatientUpdateRequest();
+    private PatientUpdateRequest Patient { get; set; }
 
-    private DateTime dateOfBirth = DateTime.Now.AddDays(0);
+    private DateTime dateOfBirth { get; set; }
 
-    // protected async override Task OnInitializedAsync()
-    // {
-    //     var patient = await PatientApiClient.GetPatientDetail(patientId);
-    //     if (patient != null)
-    //     {
-    //         patientUpdateModel = new PatientUpdateRequest
-    //             {
-    //                 Name = patient.Name,
-    //                 Gender = patient.Gender,
-    //                 PhoneNumber = patient.PhoneNumber,
-    //                 Address = patient.Address,
-    //                 DateOfBirth = patient.DateOfBirth,
-    //                 Job = patient.Job
-    //             };
-    //         dateOfBirth = patient.DateOfBirth; 
-    //     }
-    //     else
-    //     {
-    //         toastService.ShowError("Unable to load patient details.");
-    //     }
-    // }
-
-    private async Task HandleEditPatient(EditContext context)
+    protected override async Task OnInitializedAsync()
     {
-        // patientUpdateModel.DateOfBirth = dateOfBirth;
-        // var result = await PatientApiClient.UpdatePatient(Guid.Parse(patientId), patientUpdateModel);
-        // if (result)
-        // {
-        //     toastService.ShowSuccess($"{patientUpdateModel.Name} được sửa thành công");
-        // }
-        // else
-        // {
-        //     toastService.ShowError("Có lỗi xảy ra. Vui lòng liên hệ admin");
-        // }
-        // Hide();
+        var patientDto = await PatientApiClient.GetPatientDetail(patientId);
+        Patient = new PatientUpdateRequest();
+        Patient.Name = patientDto.Name;
+        Patient.PhoneNumber = patientDto.PhoneNumber;
+        Patient.Gender = patientDto.Gender;
+        Patient.Job = patientDto.Job;
+        Patient.Address = patientDto.Address;
+        dateOfBirth = patientDto.DateOfBirth;
     }
-    public void Show()
+    private async Task HandleEditPatient()
     {
-        ShowDialog = true;
-        StateHasChanged();
+        Patient.DateOfBirth = dateOfBirth;
+        var result = await PatientApiClient.UpdatePatient(Guid.Parse(patientId), Patient);
+        if (result)
+        {
+            toastService.ShowSuccess("Chỉnh sửa thông tin thành công");
+            NavigationManager.NavigateTo("Dentistry");
+        }
+        else
+        {
+            toastService.ShowError("Có lỗi xảy ra. Vui lòng liên hệ admin");
+        }
     }
-    private void Hide()
+    private void BackBtn()
     {
-        ShowDialog = false;
-        StateHasChanged();
+        NavigationManager.NavigateTo("Dentistry");
     }
 }
