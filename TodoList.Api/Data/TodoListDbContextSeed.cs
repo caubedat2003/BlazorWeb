@@ -53,29 +53,6 @@ namespace TodoList.Api.Data
                     CreatedDate = DateTime.Now
                 });
             }
-            //var user = new User();
-            //var task = new Entities.Task();
-            //if (!context.Users.Any())
-            //{
-            //    user.Id = Guid.NewGuid();
-            //    user.FirstName = "Mr";
-            //    user.LastName = "A";
-            //    user.Email = "admin1@gmail.com";
-            //    user.PhoneNumber = "0123456789";
-            //    user.UserName = "admin";
-            //    user.PasswordHash = _passwordHasher.HashPassword(user, "Admin@123#");
-            //    context.Users.Add(user);
-            //}
-            //if (!context.Tasks.Any())
-            //{
-            //    task.Id = Guid.NewGuid();
-            //    task.AssigneeId = user.Id;
-            //    task.Name = "Same tasks 1";
-            //    task.CreatedDate = DateTime.Now;
-            //    task.Priority = Priority.High;
-            //    task.Status = Status.Open;
-            //    context.Tasks.Add(task);
-            //}
             await context.SaveChangesAsync();
         }
     }

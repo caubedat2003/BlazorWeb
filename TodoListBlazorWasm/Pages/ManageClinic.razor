@@ -26,7 +26,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-4">
                         <label for="PatientId">Chọn bệnh nhân: </label>
-                        <InputSelect id="PatientId" class="form-control" @bind-Value="patientModel.PatientId">
+                        <InputSelect id="PatientId" class="form-label" @bind-Value="patientModel.PatientId">
                             <option value="">Chọn bệnh nhân</option>
                             @foreach (var patient in patients)
                             {
@@ -99,20 +99,13 @@
                         <label for="Condition">Tình trạng</label>
                         <InputText id="Condition" class="form-control" @bind-Value="patientModel.Condition"></InputText>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <label for="ClinicRoom">Phòng khám:</label>
                         <InputText id="ClinicRoom" class="form-control" @bind-Value="patientModel.ClinicRoom"></InputText>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <label for="TreatmentFee">Tiền khám:</label>
                         <InputNumber id="TreatmentFee" class="form-control" @bind-Value="patientModel.TreatmentFee"></InputNumber>
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-                    <div class="col-sm-8">
-                        <label for="TreatmentNote">Ghi chú khám: </label>
-                        <InputTextArea id="TreatmentNote" class="form-control" @bind-Value="patientModel.TreatmentNote"></InputTextArea>
                     </div>
                     <div class="col-sm-4">
                         <label for="Doctor">Bác sĩ khám</label>
@@ -120,8 +113,18 @@
                     </div>
                 </div>
 
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <label for="TreatmentNote">Ghi chú khám: </label>
+                        <InputTextArea id="TreatmentNote" class="form-control" @bind-Value="patientModel.TreatmentNote"></InputTextArea>
+                    </div>
+                </div>
+
                 <div class="saveButton">
-                    <button type="submit" class="btn btn-success">Lưu</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="ri-save-3-line"></i>
+                        Lưu
+                    </button>
                 </div>
             </EditForm>
         </div>
@@ -183,13 +186,17 @@
             </div>
 
             <div class="saveButton">
-                <button type="submit" class="btn btn-success">Lưu</button>
+                <button type="submit" class="btn btn-success">
+                    <i class="ri-save-3-line"></i>
+                    Lưu
+                </button>
             </div>
         </div>
 
         <div class="tab-pane fade" id="PhanHoi" role="tabpanel" aria-labelledby="PhanHoiTab">
             
-            <BlazoredTextEditor @ref="@QuillHtml">
+            <BlazoredTextEditor @ref="@QuillHtml"
+                                Placeholder="Hãy nhập phản hồi cho chúng tôi.....">
                 <ToolbarContent>
                     <select class="ql-header">
                         <option selected=""></option>
@@ -199,6 +206,19 @@
                         <option value="4"></option>
                         <option value="5"></option>
                     </select>
+                    <span class="ql-formats">
+                        <select class="ql-font">
+                            <option selected=""></option>
+                            <option value="serif"></option>
+                            <option value="monospace"></option>
+                        </select>
+                        <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected=""></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                        </select>
+                    </span>
                     <span class="ql-formats">
                         <button class="ql-bold"></button>
                         <button class="ql-italic"></button>

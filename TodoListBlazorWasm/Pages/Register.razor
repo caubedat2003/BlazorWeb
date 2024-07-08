@@ -1,0 +1,63 @@
+﻿@page "/Register"
+@using TodoList.Models
+
+<div class="page-body-center">
+    <div class="registerCard">
+        <div class="title-register">
+            <h3 class="m-2"><i class="ri-user-add-line"></i></h3>
+            <h3 class="m-2">Đăng kí người dùng</h3>
+        </div>
+        <hr class="m-3"/>
+        <EditForm Model="patientModel" OnSubmit="HandleRegister">
+            <div class="card-body">
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-sm-10">
+                        <label for="Name">Họ và tên</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="name">
+                                <i class="ri-user-fill"></i>
+                            </span>
+                            <input type="text" class="form-control" aria-describedby="name" placeholder="Họ và tên" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-sm-10">
+                        <label for="username">Tên tài khoản</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="username">
+                                <i class="ri-account-circle-fill"></i>
+                            </span>
+                            <input type="text" class="form-control" aria-describedby="username" placeholder="Tên tài khoản" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-sm-10">
+                        <label for="password">Mật khẩu</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="username">
+                                <i class="ri-lock-fill"></i>
+                            </span>
+                            <input type="password" class="form-control" aria-describedby="password" placeholder="Mật khẩu" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-center">
+                <input type="submit" value="Đăng kí" />
+            </div>
+            <div class="link-dang-nhap">
+                Đã có tài khoản? <a href="/login">Đăng nhập</a>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private PatientRequest patientModel = new PatientRequest();
+    private async Task HandleRegister(){
+
+    }
+}

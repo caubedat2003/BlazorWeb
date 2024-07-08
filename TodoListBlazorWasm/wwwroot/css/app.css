@@ -265,3 +265,40 @@ code {
     align-items: center;
     text-align: center;
 }
+.registerCard {
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px gray;
+    margin: 1rem;
+    width: 25%;
+    height: 480px;
+}
+.title-register{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+input[type="Submit"] {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    height: 50px;
+    border: 1px solid;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+input[type="Submit"]:hover {
+    background: #2691d9;
+    color: #e9f4fb;
+    transition: .5s;
+}
+.link-dang-nhap {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #666666;
+}

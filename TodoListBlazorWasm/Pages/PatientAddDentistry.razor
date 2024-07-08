@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-sm-4">
                             <label for="Gender">Giới tính:</label>
-                            <InputSelect id="Gender" class="form-control" @bind-Value="patientModel.Gender">
+                            <InputSelect id="Gender" class="form-label" @bind-Value="patientModel.Gender">
                                 @foreach(string gender in Enum.GetNames(typeof(Gender)))
                                 {
                                     <option value="@gender">@gender</option>
