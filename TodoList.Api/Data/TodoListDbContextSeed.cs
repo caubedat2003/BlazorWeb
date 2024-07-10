@@ -25,6 +25,7 @@ namespace TodoList.Api.Data
                     UserName = "admin",
                     NormalizedUserName = "ADMIN",
                     SecurityStamp = Guid.NewGuid().ToString(),
+                    UserRole = UserRole.Receptionist
                 };
                 user.PasswordHash = _passwordHasher.HashPassword(user, "Admin@123#");
                 context.Users.Add(user);

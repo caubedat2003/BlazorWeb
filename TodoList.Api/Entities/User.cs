@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using TodoList.Models.Enums;
 
 namespace TodoList.Api.Entities
 {
@@ -11,6 +12,9 @@ namespace TodoList.Api.Entities
         [MaxLength(250)]
         [Required]
         public string LastName { get; set; }
+
+        [Required]
+        public UserRole UserRole { get; set; }
 
     }
 }

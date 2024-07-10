@@ -20,5 +20,26 @@ namespace TodoList.Api.Repositories
         {
             return await _context.Users.FindAsync(id);
         }
+
+        public async Task<User> Create(User user)
+        {
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<User> Update(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<User> Delete(User user)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
     }
 }

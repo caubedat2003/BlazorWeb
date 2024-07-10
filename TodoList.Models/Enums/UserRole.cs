@@ -8,6 +8,7 @@ namespace TodoList.Models.Enums
 {
     public enum UserRole
     {
+        Admin,
         Receptionist,
         Doctor,
         Cashier,

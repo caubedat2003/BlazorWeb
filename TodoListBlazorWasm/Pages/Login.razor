@@ -15,7 +15,6 @@
     <div class="cardLogin">
         <div class="card-body p-5">
 
-            @* anh & tieu de *@
             <div class="user-picture">
                 <img src="/user.png" class="img-fluid w-25 h-25" alt="User Logo" />
             </div>
@@ -25,7 +24,6 @@
             <EditForm Model="LoginModel" OnValidSubmit="HandleLogin">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
 
-                @* phan username *@
                 <div class="input-login">
                     <div class="input-username">
                         <i class="ri-user-3-fill mt-2"></i>
@@ -36,7 +34,6 @@
                     </div>
                 </div>
 
-                @* phan password *@
                 <div class="input-login">
                     <div class="input-password">
                         <i class="ri-lock-fill mt-2"></i>
@@ -47,7 +44,6 @@
                     </div>
                 </div>
 
-                @* phan remember me & forgot password *@
                 <div class="more-info">
                     <div class="remember-me">
                         <input class="form-check-input m-1" type="checkbox" value="" id="rememberMe" />
@@ -58,7 +54,6 @@
                     </div>
                 </div>
 
-                @* nut login *@
                 <div class="align-center-button">
                     <button type="submit" class="btn login-btn">Login</button>
                 </div>

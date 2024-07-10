@@ -259,6 +259,10 @@ code {
 .alignItemMiddle{
     vertical-align: middle;
 }
+.table-body{
+    justify-content: center;
+    align-items: center;
+}
 .cardPatient{
     display: flex;
     flex-direction: column;
@@ -270,8 +274,8 @@ code {
     border-radius: 0.25rem;
     box-shadow: 0 0 1px gray;
     margin: 1rem;
-    width: 25%;
-    height: 480px;
+    width: 30%;
+    height: fit-content;
 }
 .title-register{
     display: flex;

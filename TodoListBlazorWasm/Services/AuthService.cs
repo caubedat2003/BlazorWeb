@@ -45,5 +45,17 @@ namespace TodoListBlazorWasm.Services
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
+
+        public async Task<RegisterResponse> Register(RegisterRequest registerRequest)
+        {
+            var result = await _httpClient.PostAsJsonAsync("/api/register", registerRequest);
+            var content = await result.Content.ReadAsStringAsync();
+            var registerResponse = JsonSerializer.Deserialize<RegisterResponse>(content,
+                new JsonSerializerOptions()
+                {
+                    PropertyNameCaseInsensitive = true,
+                });
+            return registerResponse;
+        }
     }
 }

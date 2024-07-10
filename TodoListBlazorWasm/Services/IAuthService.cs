@@ -6,5 +6,6 @@ namespace TodoListBlazorWasm.Services
     {
         Task<LoginResponse> Login(LoginRequest loginRequest);
         Task Logout();
+        Task<RegisterResponse> Register(RegisterRequest registerRequest);
     }
 }

@@ -23,6 +23,7 @@ namespace TodoList.Api.Controllers
             {
                Id = x.Id,
                FullName = x.FirstName + " " + x.LastName,
+               UserRole = x.UserRole,
             });
             return Ok(assignees);
         }
@@ -43,6 +44,7 @@ namespace TodoList.Api.Controllers
                 {
                     Id = user.Id,
                     FullName = user.FirstName + " " + user.LastName,
+                    UserRole = user.UserRole,
                 };
 
                 return Ok(assignee);
@@ -53,6 +55,55 @@ namespace TodoList.Api.Controllers
                 return StatusCode(500, "An error occurred while processing your request."); // Internal server error
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]  UserCreateRequest request)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await _userRepository.Create(new Entities.User()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                UserRole = Models.Enums.UserRole.Receptionist,
+            });
+            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+        }
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UserUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var userFromDb = await _userRepository.GetUserById(id);
+            if(userFromDb == null) return NotFound("Không tìm thấy người dùng");
 
+            userFromDb.FirstName = request.FirstName;
+            userFromDb.LastName = request.LastName;
+            userFromDb.Email = request.Email;
+            userFromDb.UserRole = request.UserRole;
+
+            var result = await _userRepository.Update(userFromDb);
+            return Ok(result);
+        }
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var user = await _userRepository.GetUserById(id);
+            if (user == null) return NotFound("Không tìm thấy người dùng");
+            await _userRepository.Delete(user);
+            return Ok(new AssigneeDto()
+            {
+                Id = id,
+                FullName = user.FirstName + " " + user.LastName,
+                UserRole = user.UserRole,
+            });
+        }
     }
 }
