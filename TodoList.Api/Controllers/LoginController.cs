@@ -36,10 +36,13 @@ namespace TodoList.Api.Controllers
 
             if (!result.Succeeded) return BadRequest(new LoginResponse { Successful = false, Error = "Username and password are invalid." });
 
+            var userRole = user.UserRole.ToString(); //Lưu role khi đăng nhập
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, login.UserName),
-                new Claim("UserId", user.Id.ToString())
+                new Claim("UserId", user.Id.ToString()),
+                new Claim("role", userRole)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));

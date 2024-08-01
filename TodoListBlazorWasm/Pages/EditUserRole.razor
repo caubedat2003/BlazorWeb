@@ -1,0 +1,86 @@
+﻿@using TodoList.Models
+@using TodoList.Models.Enums
+@using TodoListBlazorWasm.Services
+@inject IUserApiClient UserApiClient
+@inject IToastService toastService
+
+<div class="modal-overlay @(ShowDialog ? "show" : "")"></div>
+
+<div class="modal fade @(ShowDialog ? "show d-block" : "fade")" id="roleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <EditForm Model="editModel" OnSubmit="HandleEditRole">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modaltitle">Cấp quyền</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="()=>Hide()" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="recipent-name" class="col-form-label">Chỉnh sửa quyền cho người dùng</label>
+                        <InputSelect class="form-select" @bind-Value="editModel.UserRole">
+                            @foreach(string role in Enum.GetNames(typeof(UserRole)))
+                            {
+                                <option value="@role">@role</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" @onclick="()=>Hide()" data-bs-dismiss="modal">
+                        <i class="ri-close-line"></i>
+                        Đóng
+                    </button>
+                    <button class="btn btn-success" type="submit">
+                        <i class="ri-save-3-line"></i>
+                        Lưu
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    protected bool ShowDialog { get; set; }
+    private UserDto editModel { set; get; } = new UserDto();
+    private Guid UserId;
+
+    [Parameter]
+    public EventCallback<bool> CloseEventCallback { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(UserId != Guid.Empty)
+        {
+            var user = await UserApiClient.GetUserDetail(UserId.ToString());
+        }
+    }
+
+    private async Task HandleEditRole()
+    {
+        var result = await UserApiClient.EditRole(UserId, editModel);
+        if (result)
+        {
+            ShowDialog = false;
+            await CloseEventCallback.InvokeAsync(true);
+            toastService.ShowSuccess("Cấp quyền thành công!");
+        }
+        else
+        {
+            toastService.ShowError("Cấp quyền không thành công");
+        }
+    }
+    public void Show(Guid userId)
+    {
+        ShowDialog = true;
+        UserId = userId;
+        StateHasChanged();
+    }
+    private void Hide()
+    {
+        ShowDialog = false;
+        StateHasChanged();
+    }
+}

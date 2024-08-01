@@ -137,21 +137,17 @@ code {
     margin-bottom: 2rem;
 }
 .cardLogin {
-    background-color: gainsboro;
-    box-shadow: 0 0 5px gray;
-    width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px gray;
+    width: 35%;
+    height: fit-content;
 }
 .login-title {
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-content: center;
-    padding: 1rem;
-}
-.input-login {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
 .input-username {
     display: flex;
@@ -169,18 +165,9 @@ code {
     display: flex;
     justify-content: center;
 }
-.more-info {
-    display: flex;
-    justify-content: space-between !important;
-    margin-bottom: 2rem;
-}
-.remember-me{
-    display: flex;
-    padding-left: 7rem;
-}
 .forgot-password{
     display: flex;
-    padding-right: 7rem;
+    padding-left: 4rem;
 }
 .align-center-button {
     display: flex;
@@ -188,9 +175,27 @@ code {
     align-content: center;
 }
 .login-btn {
-    width: 25%;
-    background-color: #009f9d;
-    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 50px;
+    border: 1px solid;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.login-btn:hover {
+    background: #009f9d;
+    color: #e9f4fb;
+    transition: .5s;
+}
+.link-register {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #666666;
 }
 .divider {
     border-top: solid 1px #e0e0e0;
@@ -227,12 +232,6 @@ code {
     display: flex;
     justify-content: space-between;
 }
-.VIPcheckbox{
-    display: flex;
-    justify-items: center;
-    padding: 2px;
-    margin-bottom: 5px;
-}
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -253,9 +252,6 @@ code {
     border-bottom: inherit !important;
     border-top: none !important;
 }
-.visitbutton{
-
-}
 .alignItemMiddle{
     vertical-align: middle;
 }
@@ -274,7 +270,7 @@ code {
     border-radius: 0.25rem;
     box-shadow: 0 0 1px gray;
     margin: 1rem;
-    width: 30%;
+    width: 40%;
     height: fit-content;
 }
 .title-register{
@@ -283,9 +279,10 @@ code {
     justify-content: center;
     margin-top: 1rem;
 }
-input[type="Submit"] {
+.register-btn {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 50%;
     height: 50px;
     border: 1px solid;
@@ -294,13 +291,16 @@ input[type="Submit"] {
     font-weight: 700;
     cursor: pointer;
 }
-
-input[type="Submit"]:hover {
+.register-btn:hover {
     background: #2691d9;
     color: #e9f4fb;
     transition: .5s;
 }
-.link-dang-nhap {
+.button-center{
+    display: flex;
+    justify-content: center;
+}
+.link-login {
     margin: 20px 0;
     text-align: center;
     font-size: 16px;

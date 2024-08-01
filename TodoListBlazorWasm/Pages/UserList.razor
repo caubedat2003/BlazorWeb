@@ -1,21 +1,86 @@
 ﻿@page "/UserList"
+@using Microsoft.AspNetCore.Components.Authorization
+@using TodoList.Models
+@using TodoListBlazorWasm.Services
+@inject IUserApiClient UserApiClient
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IProceduresService ProceduresService
 
+@if (!isAuthorized)
+{
+    <div class="alert alert-danger" role="alert">
+        You are not authorized to access this page.
+    </div>
+}
+else if(Users == null)
+{
+    <div>loading.....</div>
+}
+else
+{
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Họ tên</th>
+                    <th>Tên người dùng</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                @foreach(var item in Users)
+                {
+                    <tr>
+                        <td>@item.LastName  @item.FirstName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>
+                            <a style="cursor:pointer" class="text-decoration-none" @onclick="()=>OpenEditRoleDialog(item.Id)">
+                                @item.UserRole
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Họ tên</th>
-                <th>Tên người dùng</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody class="table-body">
+    <EditUserRole @ref="editRoleDialog" CloseEventCallback="EditRoleSuccess"></EditUserRole>
 
-        </tbody>
-    </table>
-</div>
+}
 
 @code {
+    private UserDto userModel = new UserDto();
+    private List<UserDto> Users;
+
+    private bool isAuthorized = false;
+
+    protected EditUserRole editRoleDialog { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if(user.Identity.IsAuthenticated && user.HasClaim(c => c.Type == "role" && c.Value == "Admin"))
+        {
+            isAuthorized = true;
+            Users = await UserApiClient.GetUsersList();
+        }
+        else
+        {
+            isAuthorized = false;
+        }
+    }
+    public void OpenEditRoleDialog(Guid id)
+    {
+        editRoleDialog.Show(id);
+    }
+    public async Task EditRoleSuccess(bool result)
+    {
+        if (result)
+        {
+            Users = await UserApiClient.GetUsersList();
+        }
+    }
 }

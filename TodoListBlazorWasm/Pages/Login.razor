@@ -13,51 +13,60 @@
 }
 <div class="page-body-center">
     <div class="cardLogin">
-        <div class="card-body p-5">
+        <div class="login-title">
+            <h3 class="m-1"><i class="ri-login-box-line"></i></h3>
+            <h3 class="card-title m-1">Đăng nhập</h3>
+        </div>
+        <hr class="m-3"/>
 
+        <div class="card-body p-2">
             <div class="user-picture">
-                <img src="/user.png" class="img-fluid w-25 h-25" alt="User Logo" />
+                <img src="/user.png" class="img-fluid" width="150" alt="User Logo" />
             </div>
-
-            <h3 class="card-title login-title">MEMBER LOGIN</h3>
 
             <EditForm Model="LoginModel" OnValidSubmit="HandleLogin">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
 
-                <div class="input-login">
-                    <div class="input-username">
-                        <i class="ri-user-3-fill mt-2"></i>
-                        <InputText id="username" class="form-control w-50" placeholder="Username" @bind-Value="LoginModel.UserName"></InputText>
-                    </div>
-                    <div class="valid-message">
-                        <ValidationMessage For="()=> LoginModel.UserName"></ValidationMessage>
-                    </div>
-                </div>
-
-                <div class="input-login">
-                    <div class="input-password">
-                        <i class="ri-lock-fill mt-2"></i>
-                        <InputText id="password" type="password" class="form-control w-50" placeholder="Password" @bind-Value="LoginModel.Password"></InputText>
-                    </div>
-                    <div class="valid-message">
-                        <ValidationMessage For="()=> LoginModel.Password"></ValidationMessage>
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-sm-10">
+                        <div class="input-username">
+                            <i class="ri-user-3-fill mt-2"></i>
+                            <InputText id="username" class="form-control" placeholder="Username" @bind-Value="LoginModel.UserName"></InputText>
+                        </div>
+                        <div class="valid-message">
+                            <ValidationMessage For="()=> LoginModel.UserName"></ValidationMessage>
+                        </div>
                     </div>
                 </div>
 
-                <div class="more-info">
-                    <div class="remember-me">
-                        <input class="form-check-input m-1" type="checkbox" value="" id="rememberMe" />
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                <div class="row mb-3 justify-content-center">
+                    <div class="col-sm-10">
+                        <div class="input-password">
+                            <i class="ri-lock-fill mt-2"></i>
+                            <InputText id="password" type="password" class="form-control" placeholder="Password" @bind-Value="LoginModel.Password"></InputText>
+                        </div>
+                        <div class="valid-message">
+                            <ValidationMessage For="()=> LoginModel.Password"></ValidationMessage>
+                        </div>
                     </div>
-                    <div class="forgot-password">
-                        <p><a class="link-opacity-50-hoveratio" href="#">Forgot password</a></p>
+                </div >
+
+                <div class="row mb-3">
+                    <div class="col-sm-10 forgot-password">
+                        <p><a class="link-opacity-50-hoveratio" href="#">Quên mật khẩu</a></p>
                     </div>
                 </div>
 
-                <div class="align-center-button">
+                <div class="button-center">
                     <button type="submit" class="btn login-btn">Login</button>
                 </div>
             </EditForm>
+        </div>
+        <hr class="m-3"/>
+        <div>
+            <div class="link-register">
+                Chưa có tài khoản <a href="/register">Đăng kí</a>
+            </div>
         </div>
     </div>
 </div>

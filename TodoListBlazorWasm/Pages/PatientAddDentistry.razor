@@ -7,7 +7,7 @@
 <div class="modal-overlay @(ShowDialog ? "show" : "")"></div>
 
 <div class="modal fade @(ShowDialog ? "show d-block" : "fade")" id="dentisModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog" role="document">
         <EditForm Model="patientModel" OnValidSubmit="HandleAddPatient">
             <div class="modal-content">
                 <div class="modal-header">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-sm-4">
                             <label for="Gender">Giới tính:</label>
-                            <InputSelect id="Gender" class="form-label" @bind-Value="patientModel.Gender">
+                            <InputSelect id="Gender" class="form-select" @bind-Value="patientModel.Gender">
                                 @foreach(string gender in Enum.GetNames(typeof(Gender)))
                                 {
                                     <option value="@gender">@gender</option>

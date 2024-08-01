@@ -1,0 +1,119 @@
+﻿@page "/RoleList"
+@using TodoList.Models
+@using TodoListBlazorWasm.Services
+@inject IProceduresService ProcedureService
+
+@if (Receptionist == null && Doctor == null && Cashier == null && Pharmacist == null)
+{
+    <div>loading.......</div>
+}
+else
+{
+    <h3>Danh sách lễ tân</h3>
+    <div class="mb-3 table-responsive">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th width="50%">Họ tên</th>
+                    <th width="25%">Tên người dùng</th>
+                    <th width="25%">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Receptionist)
+                {
+                    <tr>
+                        <td>@item.LastName  @item.FirstName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="mb-2">Danh sách bác sĩ</h3>
+    <div class="mb-3 table-responsive">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th width="50%">Họ tên</th>
+                    <th width="25%">Tên người dùng</th>
+                    <th width="25%">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Doctor)
+                {
+                    <tr>
+                        <td>@item.LastName  @item.FirstName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="mb-2">Danh sách thu ngân</h3>
+    <div class="mb-3 table-responsive">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th width="50%">Họ tên</th>
+                    <th width="25%">Tên người dùng</th>
+                    <th width="25%">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Cashier)
+                {
+                    <tr>
+                        <td>@item.LastName  @item.FirstName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="mb-2">Danh sách dược sĩ</h3>
+    <div class="mb-3 table-responsive">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th width="50%">Họ tên</th>
+                    <th width="25%">Tên người dùng</th>
+                    <th width="25%">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Pharmacist)
+                {
+                    <tr>
+                        <td>@item.LastName  @item.FirstName</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<UserSP> Doctor;
+    private List<UserSP> Receptionist;
+    private List<UserSP> Cashier;
+    private List<UserSP> Pharmacist;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Doctor = await ProcedureService.GetDoctors();
+        Receptionist = await ProcedureService.GetReceptionist();
+        Cashier = await ProcedureService.GetCashier();
+        Pharmacist = await ProcedureService.GetPharmacist();
+    }
+
+}

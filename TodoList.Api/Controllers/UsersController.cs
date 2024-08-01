@@ -25,7 +25,8 @@ namespace TodoList.Api.Controllers
                FullName = x.FirstName + " " + x.LastName,
                UserRole = x.UserRole,
             });
-            return Ok(assignees);
+            //return Ok(assignees);
+            return Ok(users);
         }
         [HttpGet]
         [Route("{id}")]
@@ -40,14 +41,24 @@ namespace TodoList.Api.Controllers
                     return NotFound(); // User with the given ID not found
                 }
 
-                var assignee = new AssigneeDto()
+                //var assignee = new AssigneeDto()
+                //{
+                //    Id = user.Id,
+                //    FullName = user.FirstName + " " + user.LastName,
+                //    UserRole = user.UserRole,
+                //};
+
+                //return Ok(assignee);
+
+                return Ok(new UserDto()
                 {
                     Id = user.Id,
-                    FullName = user.FirstName + " " + user.LastName,
-                    UserRole = user.UserRole,
-                };
-
-                return Ok(assignee);
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    UserRole = user.UserRole
+                });
             }
             catch (Exception ex)
             {
@@ -103,6 +114,25 @@ namespace TodoList.Api.Controllers
                 Id = id,
                 FullName = user.FirstName + " " + user.LastName,
                 UserRole = user.UserRole,
+            });
+        }
+        [HttpPut]
+        [Route("{id}/role")]
+        public async Task<IActionResult> EditRole(Guid id, [FromBody] EditRoleRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var userFromDb = await _userRepository.GetUserById(id);
+            if (userFromDb == null) return NotFound("Không tìm thấy người dùng");
+
+            userFromDb.UserRole = request.UserRole;
+            var userResult = await _userRepository.Update(userFromDb);
+            return Ok(new EditRoleRequest()
+            {
+                Id = userResult.Id,
+                UserRole = userResult.UserRole,
             });
         }
     }
