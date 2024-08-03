@@ -32,7 +32,7 @@ else
         </table>
     </div>
 
-    <h3 class="mb-2">Danh sách bác sĩ</h3>
+    <h3 class="mb-2">Danh sách bác sĩ (@number người)</h3>
     <div class="mb-3 table-responsive">
         <table class="table">
             <thead class="table-light">
@@ -107,6 +107,8 @@ else
     private List<UserSP> Receptionist;
     private List<UserSP> Cashier;
     private List<UserSP> Pharmacist;
+    private List<CountDoctorModel> numbers;
+    private int number;
 
     protected override async Task OnInitializedAsync()
     {
@@ -114,6 +116,8 @@ else
         Receptionist = await ProcedureService.GetReceptionist();
         Cashier = await ProcedureService.GetCashier();
         Pharmacist = await ProcedureService.GetPharmacist();
+        numbers = await ProcedureService.NumberOfDoctors();
+        number = numbers.SingleOrDefault().NumberDoctor;
     }
 
 }

@@ -26,7 +26,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-4">
                         <label for="PatientId">Chọn bệnh nhân: </label>
-                        <InputSelect id="PatientId" class="form-label" @bind-Value="patientModel.PatientId">
+                        <InputSelect id="PatientId" class="form-select" @bind-Value="patientModel.PatientId">
                             <option value="">Chọn bệnh nhân</option>
                             @foreach (var patient in patients)
                             {

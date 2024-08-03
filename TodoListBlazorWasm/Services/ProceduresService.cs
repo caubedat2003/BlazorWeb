@@ -9,7 +9,7 @@ namespace TodoListBlazorWasm.Services
         Task<List<UserSP>> GetReceptionist();
         Task<List<UserSP>> GetCashier();
         Task<List<UserSP>> GetPharmacist();
-        Task<int> NumberOfDoctors();
+        Task<List<CountDoctorModel>> NumberOfDoctors();
     }
     public class ProceduresService : IProceduresService
     {
@@ -39,23 +39,24 @@ namespace TodoListBlazorWasm.Services
             return await _httpClient.GetFromJsonAsync<List<UserSP>>("api/Procedures/GetReceptionist");
         }
 
-        public async Task<int> NumberOfDoctors()
+        public async Task<List<CountDoctorModel>> NumberOfDoctors()
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<Dictionary<string, int>>("api/Procedures/CountDoctor");
-                if (response.TryGetValue("numberDoctor", out int numberOfDoctors))
-                {
-                    return numberOfDoctors;
-                }
-                else
-                {
-                    return -1; 
-                }
+                var response = await _httpClient.GetFromJsonAsync<List<CountDoctorModel>>("api/Procedures/CountDoctor");
+                //if (response.TryGetValue("numberDoctor", out int numberOfDoctors))
+                //{
+                //    return numberOfDoctors;
+                //}
+                //else
+                //{
+                //    return -1; 
+                //}
+                return response;
             }
             catch (Exception ex)
             {
-                return -1;
+                return null;
             }
         }
     }

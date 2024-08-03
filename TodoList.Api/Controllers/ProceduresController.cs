@@ -69,10 +69,10 @@ namespace TodoList.Api.Controllers
         [Route("CountDoctor")]
         public async Task<ActionResult<int>> CountDoctor()
         {
-            var doctors = await _context.Set<CountDoctorModel>()
+            var result = await _context.Set<CountDoctorModel>()
                 .FromSqlRaw("CountDoctor")
                 .ToListAsync();
-            return Ok(doctors); //khong chay ToT
+            return Ok(result);
         }
     }
 }
