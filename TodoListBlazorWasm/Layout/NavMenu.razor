@@ -10,11 +10,46 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All" @onclick="()=> expandSubMenuUser = !expandSubMenuUser">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Trang chủ
             </NavLink>
+            @if (expandSubMenuUser)
+            {
+                <div class="nav flex-column">
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="dentistry">
+                            <span class="bi bi-capsule-nav-menu" aria-hidden="true"></span> Phòng khám
+                        </NavLink>
+                    </div>
+                </div>
+            }
         </div>
         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="AdminHome" Match="NavLinkMatch.All" @onclick="()=> expandSubMenuAdmin = !expandSubMenuAdmin">
+                <span class="bi bi-display-nav-menu" aria-hidden="true"></span> Trang quản lý
+            </NavLink>
+            @if (expandSubMenuAdmin)
+            {
+                <div class="nav flex-column">
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="UserList">
+                            <span class="bi bi-person-lines-fill-nav-menu" aria-hidden="true"></span> Người dùng
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="RoleList">
+                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Danh sách quyền
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="ManageUserRole">
+                            <span class="bi bi-person-fill-gear-nav-menu" aria-hidden="true"></span> Cấp quyền
+                        </NavLink>
+                    </div>
+                </div>
+            }
+        </div>
+        @* <div class="nav-item px-3">
             <NavLink class="nav-link" href="TaskList">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Task List
             </NavLink>
@@ -28,17 +63,7 @@
             <NavLink class="nav-link" href="manageClinic">
                 <span class="bi bi-heart-pulse-fill-nav-menu" aria-hidden="true"></span> Manage clinic
             </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="dentistry">
-                <span class="bi bi-capsule-nav-menu" aria-hidden="true"></span> Dentistry
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="UserList">
-                <span class="bi bi-person-lines-fill-nav-menu" aria-hidden="true"></span> User list
-            </NavLink>
-        </div>
+        </div> *@
     </nav>
 </div>
 
@@ -51,4 +76,6 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+    private bool expandSubMenuUser;
+    private bool expandSubMenuAdmin;
 }
