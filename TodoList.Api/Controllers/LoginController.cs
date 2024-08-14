@@ -42,7 +42,8 @@ namespace TodoList.Api.Controllers
             {
                 new Claim(ClaimTypes.Name, login.UserName),
                 new Claim("UserId", user.Id.ToString()),
-                new Claim("role", userRole)
+                new Claim("role", userRole),
+                new Claim(ClaimTypes.Role, userRole)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));

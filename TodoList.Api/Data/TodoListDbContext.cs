@@ -17,7 +17,7 @@ namespace TodoList.Api.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<UserSP> Doctors { get; set; }
         public DbSet<CountDoctorModel> CountDoctors { get; set; }
-
+        public DbSet<PageRoleAssignment> PageRoleAssignments { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder); // Call the base method to ensure any default configurations are applied

@@ -53,6 +53,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddTransient<ITaskRepository, TaskRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IPatientRepository, PatientRepository>();
+builder.Services.AddTransient<IRoleAssignmentRepository, RoleAssignmentRepository>();
+
+builder.Services.AddScoped<PageAuthorizationService>();
+builder.Services.AddTransient<TodoListDbContextSeed>();
 
 var app = builder.Build();
 
@@ -83,15 +87,15 @@ app.MapControllers();
 
 app.Run();
 
-var host = CreateHostBuilder(args).Build();
-host.Run();
+//var host = CreateHostBuilder(args).Build();
+//host.Run();
 
 
-IHostBuilder CreateHostBuilder(string[] args)
-{
-    return Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-        });
-}
+//IHostBuilder CreateHostBuilder(string[] args)
+//{
+//    return Host.CreateDefaultBuilder(args)
+//        .ConfigureWebHostDefaults(webBuilder =>
+//        {
+//            webBuilder.UseStartup<Startup>();
+//        });
+//}

@@ -20,6 +20,8 @@ namespace TodoListBlazorWasm
             builder.Services.AddTransient<IUserApiClient, UserApiClient>();
             builder.Services.AddTransient<IPatientApiClient, PatientApiClient>();
             builder.Services.AddTransient<IProceduresService, ProceduresService>();
+            builder.Services.AddTransient<IRoleAssignmentService, RoleAssignmentService>();
+            builder.Services.AddTransient<PageAuthorizationClient, PageAuthorizationClient>();
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();

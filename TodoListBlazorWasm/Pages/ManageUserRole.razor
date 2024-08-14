@@ -1,0 +1,89 @@
+﻿@page "/ManageUserRole"
+@using TodoList.Models
+@using TodoListBlazorWasm.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IRoleAssignmentService RoleAssignmentService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject PageAuthorizationClient PageAuthorizationClient
+@inject IToastService toastService
+
+@* @if (!isAuthorized)
+{
+    <div>Ban khong duoc cap quyen!</div>
+} *@
+@if (AssignModel == null)
+{
+    <div>loading...</div>
+}
+else
+{
+    <h3 class="mb-3">Cấp quyền truy cập vào các trang</h3>
+    <EditForm Model="AssignModel" OnValidSubmit="HandleAssign">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        @foreach(var assignment in AssignModel)
+        {
+            <div class="card mb-3">
+                <div class="card-body shadow-sm">
+                    <h4> Trang @assignment.PageName</h4>
+                    
+                    <div class="row mt-2">
+                        @* Create id variables to avoid mixing C# and markup *@
+                        @{
+                            var adminId = $"admin-{assignment.PageName}";
+                            var receptionistId = $"receptionist-{assignment.PageName}";
+                            var doctorId = $"doctor-{assignment.PageName}";
+                            var cashierId = $"cashier-{assignment.PageName}";
+                            var pharmacistId = $"pharmacist-{assignment.PageName}";
+                        }
+                        <div class="col-sm-2">
+                            <label for="@adminId" class="form-check-label">Admin</label>
+                            <InputCheckbox id="@adminId" class="form-check-input" @bind-Value="@assignment.IsAdmin"></InputCheckbox>
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="@receptionistId" class="form-check-label">Receptionist</label>
+                            <InputCheckbox id="@receptionistId" class="form-check-input" @bind-Value="@assignment.IsReceptionist"></InputCheckbox>
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="@doctorId" class="form-check-label">Doctor</label>
+                            <InputCheckbox id="@doctorId" class="form-check-input" @bind-Value="@assignment.IsDoctor"></InputCheckbox>
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="@cashierId" class="form-check-label">Cashier</label>
+                            <InputCheckbox id="@cashierId" class="form-check-input" @bind-Value="@assignment.IsCashier"></InputCheckbox>
+                        </div>
+                        <div class="col-sm-2">
+                            <label for="@pharmacistId" class="form-check-label">Pharmacist</label>
+                            <InputCheckbox id="@pharmacistId" class="form-check-input" @bind-Value="@assignment.IsPharmacist"></InputCheckbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        }
+        <button class="btn btn-success" type="submit">
+            <i class="ri-save-3-line"></i>
+            Lưu
+        </button>
+    </EditForm>
+}
+@code {
+    private List<PageRoleAssignment> AssignModel;
+    private bool isAuthorized;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AssignModel = await RoleAssignmentService.GetRoleAssignment();
+        // var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        // var user = authState.User;
+        // isAuthorized = await PageAuthorizationClient.IsUserAuthorizedForPage("ManageUserList", user);
+    }
+    private async Task HandleAssign()
+    {
+        await RoleAssignmentService.SaveRoleAssignment(AssignModel);
+        toastService.ShowSuccess("Lưu thành công!");
+        AssignModel = await RoleAssignmentService.GetRoleAssignment();
+    }
+}

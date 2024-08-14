@@ -54,6 +54,19 @@ namespace TodoList.Api.Data
                     CreatedDate = DateTime.Now
                 });
             }
+            if (!context.PageRoleAssignments.Any())
+            {
+                context.PageRoleAssignments.Add(new Models.PageRoleAssignment()
+                {
+                    Id = 1,
+                    PageName = "ManageUserRole",
+                    IsAdmin = true,
+                    IsReceptionist = false,
+                    IsDoctor = false,
+                    IsCashier = false,
+                    IsPharmacist = false,
+                });
+            }
             await context.SaveChangesAsync();
         }
     }
